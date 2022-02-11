@@ -49,8 +49,9 @@ function createTeam1(tactic) {
     createLineTeam(defendersLineUp1,defenders1,paramTactic[0],1);
     createLineTeam(midfieldersLineUp1,midfilders1,paramTactic[1],1);
     createLineTeam(attackersLineUp1,attackers1,paramTactic[2],1);
-    
-    team1 = [goalkeepers1[randomIndex(goalkeepers1)],...defendersLineUp1,...midfieldersLineUp1,...attackersLineUp1];
+    const goalkepper1 = goalkeepers1[randomIndex(goalkeepers1)];
+    goalkepper1.team = 1;
+    team1 = [goalkepper1,...defendersLineUp1,...midfieldersLineUp1,...attackersLineUp1];
     
 }
 function createTeam2(tactic) {
@@ -59,7 +60,9 @@ function createTeam2(tactic) {
     createLineTeam(defendersLineUp2,defenders2,paramTactic[0],2);
     createLineTeam(midfieldersLineUp2,midfilders2,paramTactic[1],2);
     createLineTeam(attackersLineUp2,attackers2,paramTactic[2],2);
-    team2 = [goalkeepers2[randomIndex(goalkeepers2)],...defendersLineUp2,...midfieldersLineUp2,...attackersLineUp2];
+    const goalkeepers2 = goalkeepers2[randomIndex(goalkeepers2)];
+    goalkeepers2.team = 2;
+    team2 = [goalkeepers2,...defendersLineUp2,...midfieldersLineUp2,...attackersLineUp2];
 }
 
  function moveGoalkeeper(team){
@@ -211,10 +214,10 @@ function moveAttacker(player,team){
 }
 
 function inicioComGoleiro1(){
-    console.log('teste');
+    // console.log('teste');
     let result = moveGoalkeeper(team1);
-    console.log(result);
-    console.log(result.receptorPlayer);
+    // console.log(result);
+    // console.log(result.receptorPlayer);
     while(control !=='fim'){
     if(result.receptorPlayer.position === 'Defender'){
         console.log('defesa');

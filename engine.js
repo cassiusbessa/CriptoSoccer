@@ -62,21 +62,21 @@ function createTeam2(tactic) {
  let lineFuture = positions[Math.floor(Math.random()*3)];
  if(lineFuture ==='Defender'){
      const filter = team.filter((element)=>element.position === 'Defender');
-     const receptorPlayer = filter[Math.floor(Math.random()*paramTactic[0])];
+     const receptorPlayer = filter[Math.floor(Math.random()*filter.length)];
      const msg = `${player.name} passa a bola para ${receptorPlayer.name}`
      console.log(msg); 
      return {msg,receptorPlayer};
  }
  if(lineFuture ==='Midfilder'){
     const filter = team.filter((element)=>element.position === 'Midfilder');
-    const receptorPlayer = filter[Math.floor(Math.random()*paramTactic[1])];
+    const receptorPlayer = filter[Math.floor(Math.random()*filter.length)];
     const msg = `${player.name} lança a bola para ${receptorPlayer.name}`
     console.log(msg);
     return {msg,receptorPlayer};
 }
 if(lineFuture ==='Attacker'){
     const filter = team.filter((element)=>element.position === 'Attacker');
-    const receptorPlayer = filter[Math.floor(Math.random()*paramTactic[2])];
+    const receptorPlayer = filter[Math.floor(Math.random()*filter.length)];
     const msg = `${player.name} lança a bola para ${receptorPlayer.name}`
     console.log(msg);
     return {msg,receptorPlayer};
@@ -89,21 +89,21 @@ function moveDefender(player,team){
     if(lineFuture ==='Defender' ){
         const filter = team.filter((element)=>element.position === 'Defender' && element.id !== player.id);
         console.log(filter);
-        const receptorPlayer = filter[Math.floor(Math.random()*paramTactic[0])];
+        const receptorPlayer = filter[Math.floor(Math.random()*filter.length)];
         const msg = `${player.name} passa a bola para ${receptorPlayer.name}`
         console.log(msg); 
         return {msg,receptorPlayer};
     }
     if(lineFuture ==='Midfilder'){
         const filter = team.filter((element)=>element.position === 'Midfilder');
-        const receptorPlayer = filter[Math.floor(Math.random()*paramTactic[0])];
+        const receptorPlayer = filter[Math.floor(Math.random()*filter.length)];
         const msg = `${player.name} passa a bola para ${receptorPlayer.name}`
         console.log(msg);
         return {msg,receptorPlayer};
     }
     if(lineFuture ==='Attacker'){
         const filter = team.filter((element)=>element.position === 'Attacker');
-        const receptorPlayer = filter[Math.floor(Math.random()*paramTactic[0])];
+        const receptorPlayer = filter[Math.floor(Math.random()*filter.length)];
         const msg = `${player.name} passa a bola para ${receptorPlayer.name}`
         console.log(msg);
         return {msg,receptorPlayer};
@@ -114,21 +114,21 @@ function moveMieldfilder(player,team){
     let lineFuture = positions[Math.floor(Math.random()*3)];
     if(lineFuture ==='Defender' ){
         const filter = team.filter((element)=>element.position === 'Defender');
-        const receptorPlayer = filter[Math.floor(Math.random()*paramTactic[0])];
+        const receptorPlayer = filter[Math.floor(Math.random()*filter.length)];
         const msg = `${player.name} passa a bola para ${receptorPlayer.name}`
         console.log(msg); 
         return {msg,receptorPlayer};
     }
     if(lineFuture ==='Midfilder'){
         const filter = team.filter((element)=>element.position === 'Midfilder'  && element.id !== player.id);
-        const receptorPlayer = filter[Math.floor(Math.random()*paramTactic[1])];
+        const receptorPlayer = filter[Math.floor(Math.random()*filter.length)];
         const msg = `${player.name} passa a bola para ${receptorPlayer.name}`
         console.log(msg);
         return {msg,receptorPlayer};
     }
     if(lineFuture ==='Attacker'){
         const filter = team.filter((element)=>element.position === 'Attacker');
-        const receptorPlayer = filter[Math.floor(Math.random()*paramTactic[2])];
+        const receptorPlayer = filter[Math.floor(Math.random()*filter.length)];
         const msg = `${player.name} passa a bola para ${receptorPlayer.name}`
         console.log(msg);
         return {msg,receptorPlayer};
@@ -142,7 +142,7 @@ function moveAttacker(player,team){
     if(action ==='passe'){
         const filter = team.filter((element)=>element.position === 'Attacker' && element.id !== player.id);
         console.log(filter);
-        let receptorPlayer = filter[Math.floor(Math.random()*paramTactic[2])];
+        let receptorPlayer = filter[Math.floor(Math.random()*filter.length)];
         const msg = `${player.name} toca a bola para ${receptorPlayer.name}`
         console.log(msg);
         return {msg,receptorPlayer};
@@ -153,26 +153,27 @@ function moveAttacker(player,team){
           control = 'fim';
           return {msg,player};
       }
-      
+      let goalKeeperOther = team2.find((element)=>element.position==='Goalkeeper');
+
       if(player.team === 2){
-        const goalKeeperOther = team1.find((element)=>element.position==='Goalkeeper');
-      }else{
-        const goalKeeperOther = team2.find((element)=>element.position==='Goalkeeper');
+         goalKeeperOther = team1.find((element)=>element.position==='Goalkeeper');
       }
       if(goal<=3){
           const msg = `${player.name} chuta para fora!!!`
           return {msg,goalKeeperOther};
       }
-          const msg = `${player.name} chuta..... e defenede ${goalKeeperOther.name}`;
+          const msg = `${player.name} chuta..... e defende ${goalKeeperOther.name}`;
       
 
     }
     return {msg,goalKeeperOther};
 }
 
-async function inicioComGoleiro(){
+function inicioComGoleiro(){
     console.log('teste');
     let result = moveGoalkeeper(team1);
+    console.log(result);
+    console.log(result.receptorPlayer);
     while(control !=='fim'){
     if(result.receptorPlayer.position === 'Defender'){
         console.log('defesa');
@@ -189,4 +190,8 @@ async function inicioComGoleiro(){
 
 createTeam1('4-4-2');
 createTeam2('4-4-2');
- inicioComGoleiro();
+try{
+    inicioComGoleiro();
+}catch(error){
+  console.log(error);
+}

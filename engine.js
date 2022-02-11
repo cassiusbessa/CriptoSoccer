@@ -3,7 +3,12 @@ const array2 = [{"id":41227,"name":"Muriel Gustavo Becker","age":35,"number":nul
 const positions = ['Defender','Midfielder','Attacker'];
 const paramGame = ['inicio','fim','reinicio'];
 let control = paramGame[0];
-let posseBola = '';
+let placar1 = 0;
+let placar2 = 0;
+let numeroJogadas = 0;
+let velocityGame = 2;
+const limiteJogadas = 90;
+
 
 
 const defenders1 = array.filter((element)=>element.position==='Defender');
@@ -16,7 +21,7 @@ const midfilders2 = array2.filter((element)=>element.position==='Midfielder');
 const attackers2 = array2.filter((element)=>element.position==='Attacker');
 const goalkeepers2 = array2.filter((element)=>element.position==='Goalkeeper');
 
-const randomIndex= (arrayPosition) => Math.floor(Math.random()*arrayPosition.length);
+const randomIndex= (array) => Math.floor(Math.random()*array.length);
 
 const tactics = '4-4-2'
 let paramTactic = '';
@@ -32,18 +37,26 @@ let team2;
 const defendersLineUp2 =[];
 const midfieldersLineUp2 = [];
 const attackersLineUp2 =[];
+let numberPlayer = 2;
 
 
 function createLineTeam(team,players,param,teamParam){
   for (let index = 0; index < param; index+=1) {
      const element = players[randomIndex(players)]
-     element.team = teamParam;
-     team.push(element);
+     if(!team.includes(element)){
+        team.push(element);
+     }
+     
   }
+  team.forEach((element)=>{
+    element.team = teamParam;
+    element.number = numberPlayer;
+    numberPlayer +=1;
+  })
 }
 
 function createTeam1(tactic) {
-    
+    numbersPlayer = 2;
     let paramTactic = tactic.split('-');
     
     createLineTeam(defendersLineUp1,defenders1,paramTactic[0],1);
@@ -56,6 +69,7 @@ function createTeam1(tactic) {
     
 }
 function createTeam2(tactic) {
+    numbersPlayer = 2;
     let paramTactic = tactic.split('-');
     
     createLineTeam(defendersLineUp2,defenders2,paramTactic[0],2);
@@ -67,8 +81,8 @@ function createTeam2(tactic) {
     team2 = [goalkeeper2,...defendersLineUp2,...midfieldersLineUp2,...attackersLineUp2];
 }
 
- function moveGoalkeeper(team){
- const player = team.find((element)=>element.position ==='Goalkeeper');
+ function moveGoalkeeper(player){
+ 
  let lineFuture = positions[Math.floor(Math.random()*3)];
  if(lineFuture ==='Defender'){
     let receptorPlayer;
@@ -106,7 +120,7 @@ if(lineFuture ==='Attacker'){
 
 }
 
-function moveDefender(player,team){
+function moveDefender(player){
     let lineFuture = positions[Math.floor(Math.random()*3)];
     if(lineFuture ==='Defender' ){
         let receptorPlayer;
@@ -187,7 +201,7 @@ function moveMieldfilder(player,team){
     }
 }
 
-function moveAttacker(player,team){
+function moveAttacker(player){
     let receptorPlayer;
     const moves = ['passe','chute'];
     const action = moves[Math.floor(Math.random()*2)];
@@ -208,9 +222,15 @@ function moveAttacker(player,team){
     }
     if(action ==='chute'){
       if(goal>=7){
-          const msg = `Goooolllllll de ${player.name}`;
+          const msg = `Goooolllllll de ${player.name} aos ${numeroJogadas} minutos de jogo!`;
+          if(player.team===1){
+              placar1+=1;
+          }else{
+              placar2+=1;
+          }
           control = 'reinicio';
           console.log(msg);
+          console.log(`Flamengo ${placar1} X ${placar2} Fluminense`);
           let receptorPlayer = player;
           return {msg,receptorPlayer};
       }
@@ -231,33 +251,22 @@ function moveAttacker(player,team){
 
 }
 
-function inicioComGoleiro1(){
-    console.log('Bola com o Flamengo');
-    let result = moveGoalkeeper(team1);
-    while(control !=='reinicio'){
-    if(result.receptorPlayer.position === 'Defender'){
-      
-       result = moveDefender(result.receptorPlayer,team1);
-    }else if(result.receptorPlayer.position==='Midfielder'){
-        
-        result = moveMieldfilder(result.receptorPlayer,team1);
-    }else{
-        
-       result = moveAttacker(result.receptorPlayer,team1);
-       if(result.receptorPlayer.team===2){
-        inicioComGoleiro2();
-       }
-       if(control==='reinicio'){
-        inicioComGoleiro2();
-       }
-    }
-}
+function initMatchTeam1(){
+    numeroJogadas+=1;
+    const attacker = attackersLineUp1[randomIndex(attackersLineUp1)];
+    const midfielder = midfieldersLineUp1[randomIndex(midfieldersLineUp1)];
+    const defender = defendersLineUp1[randomIndex(defendersLineUp1)];
+    const goalkeeper = team1.find((element)=>element.position ==='Goalkeeper');
+    console.log(`Saida de bola com ${attacker.name} que passa para ${midfielder.name} que toca para ${defender.name} que atrasa para ${goalkeeper.name}`);
+    initGoalKeeper1(goalkeeper);
 }
 
-function inicioComGoleiro2(){
+function initGoalkeeper2(player){
     console.log('Bola com o Fluminense');
-    let result = moveGoalkeeper(team2);
-    while(control !=='fim'){
+    console.log(`${numeroJogadas} minutos de jogo`);
+    let result = moveGoalkeeper(player);
+    while(control !=='fim' && numeroJogadas < limiteJogadas){
+    numeroJogadas += velocityGame;
     if(result.receptorPlayer.position === 'Defender'){
        // console.log('defesa');
        result = moveDefender(result.receptorPlayer,team2);
@@ -265,16 +274,50 @@ function inicioComGoleiro2(){
        // console.log('meio');
         result = moveMieldfilder(result.receptorPlayer,team2);
     }else{
-       // console.log('ataque');
        result = moveAttacker(result.receptorPlayer,team2);
        if(result.receptorPlayer.team===1){
-        inicioComGoleiro1()
+        moveGoalkeeper(result.receptorPlayer);
+       }
+       if(control==='reinicio'){
+        initMatchTeam1();
        }
     }
 }
 }
 
+
+function initTeam2(){
+    numeroJogadas+=1;
+    const attacker = attackersLineUp2[randomIndex(attackersLineUp2)];
+    const midfielder = midfieldersLineUp2[randomIndex(midfieldersLineUp2)];
+    const defender = defendersLineUp2[randomIndex(defendersLineUp2)];
+    console.log(`Saida de bola com ${attacker.name} que passa para ${midfielder.name} que toca para ${defender.name}`);
+    initGoalkeeper2(defender);
+}
+
+function initGoalKeeper1(player){
+    console.log('Bola com o Flamengo');
+    console.log(`${numeroJogadas} minutos de jogo`);
+    let result = moveGoalkeeper(player);
+    while(control !=='reinicio' && numeroJogadas  < limiteJogadas){
+    numeroJogadas+=velocityGame;
+    if(result.receptorPlayer.position === 'Defender'){
+       result = moveDefender(result.receptorPlayer,team1);
+    }else if(result.receptorPlayer.position==='Midfielder'){
+        result = moveMieldfilder(result.receptorPlayer,team1);
+    }else{
+       result = moveAttacker(result.receptorPlayer,team1);
+       if(result.receptorPlayer.team===2){
+        moveGoalkeeper(result.receptorPlayer);
+       }
+       if(control==='reinicio'){
+        result = initTeam2();
+       }
+    }
+}
+}
+
+
 createTeam1('4-4-2');
 createTeam2('4-4-2');
-
-inicioComGoleiro1();
+initMatchTeam1();

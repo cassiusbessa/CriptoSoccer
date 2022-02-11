@@ -172,6 +172,7 @@ function moveAttacker(player,team){
 function inicioComGoleiro(){
     console.log('teste');
     let result = moveGoalkeeper(team1);
+    console.log(result);
     console.log(result.receptorPlayer);
     while(control !=='fim'){
     if(result.receptorPlayer.position === 'Defender'){
@@ -189,4 +190,8 @@ function inicioComGoleiro(){
 
 createTeam1('4-4-2');
 createTeam2('4-4-2');
- inicioComGoleiro();
+try{
+    inicioComGoleiro();
+}catch(error){
+  console.log(error);
+}

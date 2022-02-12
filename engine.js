@@ -15,7 +15,7 @@ const delayTimeGol = 8800;
 const audioGol = new Audio('audios/gol.mp3');
 
 //CONSTANTE QUE DEFINE A QUANTIDADE DE LINHAS DO SPEAKER
-const velocityGame = 2;
+const velocityGame = 3;
 //CONSTANTE QUE DEFINE A VELOCIDADE DO SPEAKER
 const delayTime = 300;
 const limiteJogadas = 90;
@@ -439,6 +439,8 @@ function endMatch(){
   //htmlTest.innerText = param.msg;
   htmlTest.appendChild(imagemJogador);
   htmlTest.appendChild(speakerText);
+  const btnInitMatch = document.getElementById('begin-match');
+  btnInitMatch.innerText ='Jogar Novamente';
 }
 
 
@@ -450,12 +452,19 @@ function endMatch(){
 //   console.log(element.name + element.id)  
 // });
 async function initMatch(){
+  const htmlTest = document.getElementById('speaker-container');
+  console.log(htmlTest.innerHTML);
+  if(htmlTest.innerText !== ''){
+    console.log(htmlTest.innerText + 'click');
+    location.reload();
+  }
   placar();
   createTeam1('4-4-2');
   olLineUp(team1);
   createTeam2('4-4-2');
   olLineUp(team2);
   await initMatchTeam1();
+ 
 }
 
 function addEventListener(){

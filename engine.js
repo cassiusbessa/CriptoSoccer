@@ -21,7 +21,7 @@ const midfilders2 = array2.filter((element)=>element.position==='Midfielder');
 const attackers2 = array2.filter((element)=>element.position==='Attacker');
 const goalkeepers2 = array2.filter((element)=>element.position==='Goalkeeper');
 
-const randomIndex= (array) => Math.floor(Math.random()*array.length);
+const randomIndex = (array) => Math.floor(Math.random()*array.length);
 
 const tactics = '4-4-2'
 let paramTactic = '';
@@ -202,20 +202,31 @@ function moveMieldfilder(player,team){
 }
 
 function moveAttacker(player){
-    let receptorPlayer;
+    let receptorPlayer = player;
     const moves = ['passe','chute'];
     const action = moves[Math.floor(Math.random()*2)];
     const goal = Math.floor(Math.random()*10);
     if(action ==='passe'){
         if(player.team===1){
             const attackersFiltred = attackersLineUp1.filter((element)=> element.id !== player.id);
+            // console.log(attackersFiltred);
             const randomIndex = Math.floor(Math.random()*attackersFiltred.length);
+            // console.log(randomIndex);
             receptorPlayer = attackersFiltred[randomIndex];
+
+            // console.log(receptorPlayer);
           }else{
             const attackersFiltred = attackersLineUp2.filter((element)=> element.id !== player.id);
+            // console.log(attackersFiltred);
             const randomIndex = Math.floor(Math.random()*attackersFiltred.length);
+            // console.log(randomIndex);
             receptorPlayer = attackersFiltred[randomIndex];
+            // console.log(receptorPlayer);
           }
+          if (!receptorPlayer) {
+            receptorPlayer = player;
+          }
+        console.log('*****' + player.name + '*****' + receptorPlayer.name)
         const msg = `${player.name} toca a bola para ${receptorPlayer.name}`
         console.log(msg);
         return {msg,receptorPlayer};
@@ -265,18 +276,23 @@ function initGoalkeeper2(player){
     console.log('Bola com o Fluminense');
     console.log(`${numeroJogadas} minutos de jogo`);
     let result = moveGoalkeeper(player);
+    renderPlay(result);
     while(control !=='fim' && numeroJogadas < limiteJogadas){
     numeroJogadas += velocityGame;
     if(result.receptorPlayer.position === 'Defender'){
        // console.log('defesa');
        result = moveDefender(result.receptorPlayer,team2);
+       renderPlay(result);
     }else if(result.receptorPlayer.position==='Midfielder'){
        // console.log('meio');
         result = moveMieldfilder(result.receptorPlayer,team2);
+        renderPlay(result);
     }else{
        result = moveAttacker(result.receptorPlayer,team2);
+       renderPlay(result);
        if(result.receptorPlayer.team===1){
-        moveGoalkeeper(result.receptorPlayer);
+        result = moveGoalkeeper(result.receptorPlayer);
+        renderPlay(result);
        }
        if(control==='reinicio'){
         initMatchTeam1();
@@ -299,16 +315,21 @@ function initGoalKeeper1(player){
     console.log('Bola com o Flamengo');
     console.log(`${numeroJogadas} minutos de jogo`);
     let result = moveGoalkeeper(player);
+    renderPlay(result);
     while(control !=='reinicio' && numeroJogadas  < limiteJogadas){
     numeroJogadas+=velocityGame;
     if(result.receptorPlayer.position === 'Defender'){
        result = moveDefender(result.receptorPlayer,team1);
+       renderPlay(result);
     }else if(result.receptorPlayer.position==='Midfielder'){
         result = moveMieldfilder(result.receptorPlayer,team1);
+        renderPlay(result);
     }else{
        result = moveAttacker(result.receptorPlayer,team1);
+       renderPlay(result);
        if(result.receptorPlayer.team===2){
-        moveGoalkeeper(result.receptorPlayer);
+        result = moveGoalkeeper(result.receptorPlayer);
+        renderPlay(result);
        }
        if(control==='reinicio'){
         result = initTeam2();
@@ -318,6 +339,29 @@ function initGoalKeeper1(player){
 }
 
 
-createTeam1('4-4-2');
-createTeam2('4-4-2');
-initMatchTeam1();
+
+
+function renderPlay( param ) {
+  const htmlTest = document.getElementById('card-container');
+  htmlTest.innerHTML = '';
+  htmlTest.innerText = param.msg;
+  const imagemJogador = document.createElement('img');
+  imagemJogador.src = param.receptorPlayer.photo;
+  htmlTest.appendChild(imagemJogador);
+}
+
+
+// createTeam1('4-4-2');
+// createTeam2('4-4-2');
+// initMatchTeam1();
+// array2.forEach(element => {
+//   console.log(element.name + element.id)  
+// });
+
+
+window.onload = () => {
+  createTeam1('4-4-2');
+  createTeam2('4-4-2');
+  initMatchTeam1();
+  
+}

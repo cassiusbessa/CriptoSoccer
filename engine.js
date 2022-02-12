@@ -13,6 +13,7 @@ let numeroJogadas = 0;
 let audioControl = 0;
 const delayTimeGol = 8800;
 const audioGol = new Audio('audios/gol.mp3');
+const publico = Math.floor(Math.random() * (70000 - 40000) + 40000);
 
 //CONSTANTE QUE DEFINE A QUANTIDADE DE LINHAS DO SPEAKER
 const velocityGame = 3;
@@ -407,6 +408,11 @@ function placar(){
   placarText.innerText = `${nameTeam1} ${placar1} X ${placar2} ${nameTeam2}`
   placar.innerHTML = '';
   placar.appendChild(placarText);
+  const publicoText = document.createElement('p');
+  publicoText.id = 'publico';
+  publicoText.innerText = `Público: ${publico}`;
+  placar.appendChild(publicoText);
+
 }
 
 

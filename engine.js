@@ -12,6 +12,7 @@ let placar2 = 0;
 let numeroJogadas = 0;
 let audioControl = 0;
 const delayTimeGol = 8800;
+const audioGolTorcida = new Audio('audios/goltorcida.mp3');
 const audioGol = new Audio('audios/gol.mp3');
 const audioApito = new Audio('audios/apito.mp3');
 const publico = Math.floor(Math.random() * (70000 - 40000) + 40000);
@@ -315,7 +316,8 @@ async function initGoalkeeper2(player){
        await renderPlay(result);
        if(audioControl===1){
           console.log('play audio');
-          
+          audioGolTorcida.play();
+          await delay(1200);
           audioGol.play();
           await delay(delayTimeGol);
           
@@ -364,7 +366,8 @@ async function initGoalKeeper1(player){
        await renderPlay(result);
        if(audioControl===1){
         console.log('play audio');
-        
+        audioGolTorcida.play();
+        await delay(1200);
         audioGol.play();
         await delay(delayTimeGol);
         

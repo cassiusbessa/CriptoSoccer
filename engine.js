@@ -13,6 +13,7 @@ let numeroJogadas = 0;
 let audioControl = 0;
 const delayTimeGol = 8800;
 const audioGol = new Audio('audios/gol.mp3');
+const audioApito = new Audio('audios/apito.mp3');
 const publico = Math.floor(Math.random() * (70000 - 40000) + 40000);
 
 //CONSTANTE QUE DEFINE A QUANTIDADE DE LINHAS DO SPEAKER
@@ -445,6 +446,7 @@ function endMatch(){
   //htmlTest.innerText = param.msg;
   htmlTest.appendChild(imagemJogador);
   htmlTest.appendChild(speakerText);
+  audioApito.play();
   const btnInitMatch = document.getElementById('begin-match');
   btnInitMatch.innerText ='Jogar Novamente';
 }
@@ -469,6 +471,7 @@ async function initMatch(){
   olLineUp(team1);
   createTeam2('4-4-2');
   olLineUp(team2);
+  audioApito.play();
   await initMatchTeam1();
  
 }

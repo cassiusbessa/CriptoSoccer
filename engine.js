@@ -20,7 +20,7 @@ const publico = Math.floor(Math.random() * (70000 - 40000) + 40000);
 //CONSTANTE QUE DEFINE A QUANTIDADE DE LINHAS DO SPEAKER
 const velocityGame = 3;
 //CONSTANTE QUE DEFINE A VELOCIDADE DO SPEAKER
-const delayTime = 300;
+const delayTime = 600;
 const limiteJogadas = 90;
 
 

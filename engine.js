@@ -20,7 +20,7 @@ const publico = Math.floor(Math.random() * (70000 - 40000) + 40000);
 //CONSTANTE QUE DEFINE A QUANTIDADE DE LINHAS DO SPEAKER
 const velocityGame = 3;
 //CONSTANTE QUE DEFINE A VELOCIDADE DO SPEAKER
-const delayTime = 600;
+const delayTime = 300;
 const limiteJogadas = 90;
 
 
@@ -242,12 +242,7 @@ function moveAttacker(player){
             receptorPlayer = attackersFiltred[randIndex];
             // console.log(receptorPlayer);
           }
-          if (!receptorPlayer) {
-            receptorPlayer = player;
-            const msg = `${player.name} parte para cima, correndo em direção ao gol.`
-          }else{   
-        const msg = `${player.name} toca a bola para ${receptorPlayer.name}`
-          }
+         
         const msg = `${player.name} toca a bola para ${receptorPlayer.name}`
         console.log(msg);
         return {msg,receptorPlayer};
@@ -397,6 +392,12 @@ async function renderPlay( param ) {
   const htmlTest = document.getElementById('speaker-container');
   const speakerText = document.createElement('p');
   speakerText.innerText = param.msg;
+  speakerText.id = 'speakerText';
+  if( param.receptorPlayer.team===1){
+    speakerText.style.background = '#FFF';
+  }else{
+    speakerText.style.background = '#3FBF7F';
+  }
   const imagemJogador = document.createElement('img');
   imagemJogador.src = param.receptorPlayer.photo;
   await delay(delayTime).then(() => { console.log(""); });
@@ -409,7 +410,6 @@ async function renderPlay( param ) {
 function placar(){
   const placar = document.getElementById('placar');
   const placarText = document.createElement('span');
-  placarText.className = 'placarText';
   placarText.innerText = `${nameTeam1} ${placar1} X ${placar2} ${nameTeam2}`
   placar.innerHTML = '';
   placar.appendChild(placarText);
@@ -454,8 +454,6 @@ function endMatch(){
   const btnInitMatch = document.getElementById('begin-match');
   btnInitMatch.innerText ='Jogar Novamente';
 }
-
-
 
 // createTeam1('4-4-2');
 // createTeam2('4-4-2');

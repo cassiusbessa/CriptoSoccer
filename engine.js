@@ -409,6 +409,7 @@ async function renderPlay( param ) {
 function placar(){
   const placar = document.getElementById('placar');
   const placarText = document.createElement('span');
+  placarText.className = 'placarText';
   placarText.innerText = `${nameTeam1} ${placar1} X ${placar2} ${nameTeam2}`
   placar.innerHTML = '';
   placar.appendChild(placarText);

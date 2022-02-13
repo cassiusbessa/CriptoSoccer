@@ -415,7 +415,7 @@ function placar(){
   placar.appendChild(placarText);
   const publicoText = document.createElement('p');
   publicoText.id = 'publico';
-  publicoText.innerText = `Público: ${publico}`;
+  publicoText.innerText = `Publico: ${publico}`;
   placar.appendChild(publicoText);
 
 }

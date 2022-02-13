@@ -1,3 +1,7 @@
+@font-face {
+    font-family:'ledBoard';
+    src: url(/fonts/LEDBDREV.TTF)format('truetype');
+}
 * {
     padding: 0;
     margin: 0;
@@ -6,8 +10,8 @@
 body {
     background-image: url(/img/26850.jpg);
 }
-#btn{
- background-color:#198754;
+.btn{
+color: white;
 }
 p, span {
     color: white;
@@ -69,24 +73,50 @@ li {
     font-size: 1.5rem;
     font-weight: bold;
 }
-#placar{
-    background-image: url(img/Image\ from\ iOS.jpg);
-    background-size: 100%;
-    background-repeat: no-repeat;
-    font-size: xx-large;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
+
 .placarText {
-    padding: 40px;
+    padding: 60px;
     margin-top: 20px;
     font-size: 40px;
+    padding-bottom: 0px;
 }
 #publico {
     margin-top: 40px;
-    padding-bottom: 60px;
+}
+#img {
+    height: 100px;
+    width: 100px;
+}
+.logo-section{
+    display: flex;
+    align-items: center;
+}
+input {
+    border-radius: 10px;
+}
+.footer{
+    background-color: #0A0120;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: left;
+}
+.divText{
+    color:white;
+    font-size: 30px;
+}
+#placar{
+    background-image: url(/img/Image\ from\ iOS2.jpg);
+    /* padding: 60px; */
+    background-size: 100%; 
+    /* background-repeat: no-repeat; */
+    font-size: xx-large;
+    /* position: relative; */
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    margin-top: 30px;
+    margin-bottom: 70px;
+    font-family:ledBoard;
+    border: 20px solid #171F22
 }
